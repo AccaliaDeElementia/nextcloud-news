@@ -235,7 +235,7 @@ class FeedFetcher implements IFeedFetcher
         $item->setUnread(true);
         $itemLink = $parsedItem->getLink();
         $item->setUrl($itemLink);
-        $publicId = $parsedItem->getPublicId(); 
+        $publicId = $parsedItem->getPublicId();
         if ($publicId == null) {
             // Fallback on using the URL as the guid for the feed item if no guid provided by feed
             $publicId = $itemLink;
