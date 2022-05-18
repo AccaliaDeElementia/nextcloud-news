@@ -468,7 +468,6 @@ class FeedFetcherTest extends TestCase
         $feed = $this->createFeed();
         $this->mockIterator($this->feed_mock, [$this->item_mock]);
         $result = $this->fetcher->fetch($this->url, false, null, null);
-        $this->assertEquals([$feed, [$item]], $result);
         //Explicitly assert GUID value
         $this->assertEquals(2, count($result));
         $this->assertEquals(1, count($result[1]));
