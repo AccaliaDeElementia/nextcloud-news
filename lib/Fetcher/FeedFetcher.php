@@ -240,9 +240,6 @@ class FeedFetcher implements IFeedFetcher
             // Fallback on using the URL as the guid for the feed item if no guid provided by feed
             $publicId = $itemLink;
         }
-        if ($itemLink == null) {
-            throw new ReadErrorException("Malformed feed: item has no LINK");
-        }
         if ($publicId == null) {
             throw new ReadErrorException("Malformed feed: item has no GUID");
         }
