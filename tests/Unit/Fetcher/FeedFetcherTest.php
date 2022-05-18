@@ -464,12 +464,13 @@ class FeedFetcherTest extends TestCase
     public function testFetchWithGuid()
     {
         $this->setUpReader($this->url);
-        $item = $this->createItem();
         $feed = $this->createFeed();
         $this->mockIterator($this->feed_mock, [$this->item_mock]);
         $result = $this->fetcher->fetch($this->url, false, null, null);
         $this->assertEquals([$feed, [$item]], $result);
         //Explicitly assert GUID value
+        $this->assertEquals(2, count($result));
+        $this->assertEquals(1, count($result[1]));
         $resultItem = $result[1][0];
         $this->assertEquals($this->guid, $resultItem->getGuid());
     }
@@ -481,12 +482,12 @@ class FeedFetcherTest extends TestCase
     {
         $this->setUpReader($this->url);
         $this->guid = null;
-        $item = $this->createItem();
         $feed = $this->createFeed();
         $this->mockIterator($this->feed_mock, [$this->item_mock]);
         $result = $this->fetcher->fetch($this->url, false, null, null);
-        $this->assertEquals([$feed, [$item]], $result);
         //Explicitly assert GUID value
+        $this->assertEquals(2, count($result));
+        $this->assertEquals(1, count($result[1]));
         $resultItem = $result[1][0];
         $this->assertEquals($this->permalink, $resultItem->getGuid());
     }
