@@ -459,6 +459,38 @@ class FeedFetcherTest extends TestCase
     }
 
     /**
+     * Test if the fetch function fetches a feed that specifies a guid.
+     */
+    public function testFetchWithGuid()
+    {
+        $this->setUpReader($this->url);
+        $item = $this->createItem();
+        $feed = $this->createFeed();
+        $this->mockIterator($this->feed_mock, [$this->item_mock]);
+        $result = $this->fetcher->fetch($this->url, false, null, null);
+        $this->assertEquals([$feed, [$item]], $result);
+        //Explicitly assert GUID value
+        $resultItem = $result[1][0];
+        $this->assertEquals($this->guid, $resultItem->getGuid());
+    }
+
+    /**
+     * Test if the fetch function fetches a feed that does not specify a guid.
+     */
+    public function testFetchWithoutGuid()
+    {
+        $this->setUpReader($this->url);
+        $this->guid = null;
+        $item = $this->createItem();
+        $feed = $this->createFeed();
+        $this->mockIterator($this->feed_mock, [$this->item_mock]);
+        $result = $this->fetcher->fetch($this->url, false, null, null);
+        $this->assertEquals([$feed, [$item]], $result);
+        //Explicitly assert GUID value
+        $resultItem = $result[1][0];
+        $this->assertEquals($this->permalink, $resultItem->getGuid());
+    }
+    /**
      * Mock an iteration option on an existing mock
      *
      * @param object $iteratorMock The mock to enhance
