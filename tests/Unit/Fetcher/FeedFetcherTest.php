@@ -464,6 +464,7 @@ class FeedFetcherTest extends TestCase
     public function testFetchWithGuid()
     {
         $this->setUpReader($this->url);
+        $this->createItem();
         $feed = $this->createFeed();
         $this->mockIterator($this->feed_mock, [$this->item_mock]);
         $result = $this->fetcher->fetch($this->url, false, null, null);
@@ -481,6 +482,11 @@ class FeedFetcherTest extends TestCase
     public function testFetchWithoutGuid()
     {
         $this->setUpReader($this->url);
+        $this->createItem();
+        // Override Mock to "null" the guid. Done after Create item, otherwise the Item() created as part of the setup will reject the null guid
+        $this->item_mock->expects($this->exactly(1))
+            ->method('getPublicId')
+            ->will($this->returnValue(null));
         $this->guid = null;
         $feed = $this->createFeed();
         $this->mockIterator($this->feed_mock, [$this->item_mock]);
