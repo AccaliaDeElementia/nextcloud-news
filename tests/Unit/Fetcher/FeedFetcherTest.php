@@ -482,12 +482,8 @@ class FeedFetcherTest extends TestCase
     public function testFetchWithoutGuid()
     {
         $this->setUpReader($this->url);
-        $this->createItem();
-        // Override Mock to "null" the guid. Done after Create item, otherwise the Item() created as part of the setup will reject the null guid
-        $this->item_mock->expects($this->exactly(1))
-            ->method('getPublicId')
-            ->will($this->returnValue(null));
         $this->guid = null;
+        $this->createItem();
         $feed = $this->createFeed();
         $this->mockIterator($this->feed_mock, [$this->item_mock]);
         $result = $this->fetcher->fetch($this->url, false, null, null);
@@ -639,7 +635,6 @@ class FeedFetcherTest extends TestCase
         $item->setUnread(true)
             ->setUrl($this->permalink)
             ->setTitle('my<\' title')
-            ->setGuid($this->guid)
             ->setGuidHash($this->guid_hash)
             ->setBody($this->parsed_body)
             ->setRtl(false)
@@ -647,6 +642,11 @@ class FeedFetcherTest extends TestCase
             ->setPubDate(3)
             ->setAuthor(html_entity_decode($this->author->getName()))
             ->setCategoriesJson($this->categoriesJson);
+
+        // some tests deliberately omit this, so leave default value if the guid is to be ignored
+        if ($this->guid !== null) {
+            $item->setGuid($this->guid);
+        }
 
         if ($enclosureType === 'audio/ogg' || $enclosureType === 'video/ogg') {
             $media = $this->getMockbuilder(MediaInterface::class)->getMock();
