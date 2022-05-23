@@ -41,7 +41,7 @@ app.controller('ContentController', function (Publisher, FeedResource, ItemResou
         // newest first. So, item should be the first item
         //
         if (isOldestFirst()) {
-            return item = lastItem;
+            item = lastItem;
         }
         if (item === undefined) {
             return undefined;
