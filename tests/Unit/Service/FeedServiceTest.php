@@ -305,6 +305,7 @@ class FeedServiceTest extends TestCase
     public function testCreateInfersMissingURLProtocol()
     {
         $url = '//test';
+        $expectedUrl = 'https:' . $url
         $folderId = 10;
         $createdFeed = new Feed();
         $createdFeed->setUrl($url);
@@ -334,7 +335,7 @@ class FeedServiceTest extends TestCase
                        ->will($this->returnValue([]));
         $this->fetcher->expects($this->once())
             ->method('fetch')
-            ->with($url)
+            ->with($expectedUrl)
             ->will($this->returnValue($return));
 
         $this->mapper->expects($this->once())
@@ -355,7 +356,7 @@ class FeedServiceTest extends TestCase
         );
 
         $this->assertEquals($feed->getFolderId(), $folderId);
-        $this->assertEquals($feed->getUrl(), 'https:' . $url);
+        $this->assertEquals($feed->getUrl(), $expectedUrl);
         $this->assertEquals($feed->getArticlesPerUpdate(), 2);
         $this->assertEquals($feed->getTitle(), 'title');
         $this->assertEquals($feed->getBasicAuthUser(), 'user');
