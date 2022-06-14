@@ -607,7 +607,15 @@ class Feed extends Entity implements IAPI, \JsonSerializable
     public function setUrl(string $url): Feed
     {
         $url = trim($url);
-        if (strpos($url, 'http') === 0 && $this->url !== $url) {
+        if (strpos($url, '//') === 0) {
+            // NB: we "shouldn't get here as FeedService should correct, but this is a failsafe
+            // Would like to lof here, but this class isn't hooked up for logging and FeedService is
+            // So primary check and fix is there, and this failsafe is here
+            $url = 'https:' . $url;
+        }
+        // Removed check for initial http for protocol, urlHash is required and the URl should be validated
+        // at a higher level
+        if ($this->url !== $url) {
             $this->url = $url;
             $this->setUrlHash(md5($url));
             $this->markFieldUpdated('url');
