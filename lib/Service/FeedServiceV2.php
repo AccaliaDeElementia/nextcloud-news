@@ -220,7 +220,7 @@ class FeedServiceV2 extends Service
                 'url'    => $feedUrl
                 ]
             );
-            $feedUrl = 'https:' . $feedUrl
+            $feedUrl = 'https:' . $feedUrl;
         }
 
         try {
