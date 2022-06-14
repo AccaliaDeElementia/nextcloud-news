@@ -305,7 +305,7 @@ class FeedServiceTest extends TestCase
     public function testCreateInfersMissingURLProtocol()
     {
         $url = '//test';
-        $expectedUrl = 'https:' . $url
+        $expectedUrl = 'https:' . $url;
         $folderId = 10;
         $createdFeed = new Feed();
         $createdFeed->setUrl($url);
