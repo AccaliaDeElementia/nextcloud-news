@@ -613,9 +613,7 @@ class Feed extends Entity implements IAPI, \JsonSerializable
             // So primary check and fix is there, and this failsafe is here
             $url = 'https:' . $url;
         }
-        // Removed check for initial http for protocol, urlHash is required and the URl should be validated
-        // at a higher level
-        if ($this->url !== $url) {
+        if (strpos($url, 'http') === 0 && $this->url !== $url) {
             $this->url = $url;
             $this->setUrlHash(md5($url));
             $this->markFieldUpdated('url');

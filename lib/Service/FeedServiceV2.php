@@ -213,6 +213,8 @@ class FeedServiceV2 extends Service
 
         if (strpos($feedUrl, '//') === 0) {
             // Feed URL starts with `//` no protocol specified, assume https
+            // Feeds providing protocall-less urls should accept both http and https,
+            // and https is prefered.
             $this->logger->debug(
                 "Feed:{title} Url:{url} Missing protocol, assuming `https`",
                 [
